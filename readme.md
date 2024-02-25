@@ -4,7 +4,7 @@ This is a simple Express.js API that generates gradient text.
 
 ## Installation
 
-1. Clone this repository: `git clone https://github.com/yourusername/gradient-text-api.git`
+1. Clone this repository: `git clone https://github.com/emsa001/shell_gradient.git`
 2. Install dependencies: `npm install`
 3. Start the server: `npm start`
 
