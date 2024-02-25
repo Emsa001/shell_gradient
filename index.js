@@ -3,15 +3,19 @@ const gradient = require("gradient-string");
 const ansi = require("./formats/ansi");
 
 const app = express();
-const port = 5555;
+const port = 80;
 
 app.get("/ansi", (req, res) => {
-    const gradientStart = req.query.start;
-    const gradientEnd = req.query.end;
-    const text = req.query.text;
-
-    const output = gradient(gradientStart, gradientEnd)(ansi(text));
-    res.send(output);
+    try{
+        const gradientStart = req?.query?.start || "6366f1";
+        const gradientEnd = req?.query?.end || "7e22ce";
+        const text = req?.query?.text || "Hello, World!";
+        
+        const output = gradient(gradientStart, gradientEnd)(ansi(text));
+        return res.send(output);
+    }catch(e){
+        return res.send(e.message);
+    }
 });
 
 app.listen(port, () => {
