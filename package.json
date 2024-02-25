@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "express": "^4.18.2",
-    "gradient-string": "^2.0.2"
-  }
-}
