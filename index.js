@@ -1,27 +1,32 @@
 const express = require("express");
-const gradient = require("gradient-string");
+// const gradient = require("gradient-string");
 const ansi = require("./formats/ansi");
-const supportsColor = require('supports-color');
+const {printGradientText,interpolateColor} = require("./gradient");
 
 const app = express();
 const port = 8080;
 
 app.get("/ansi", (req, res) => {
-    try{
-        const gradientStart = req?.query?.start || "6366f1";
-        const gradientEnd = req?.query?.end || "7e22ce";
+    try {
+        const startColor = req?.query?.start || "6366f1";
+        const endColor = req?.query?.end || "7e22ce";
         const text = req?.query?.text || "Hello, World!";
         const padding = req?.query?.padding || 0;
+        const steps = 20;
+
+        // const output = gradient(
+        //     gradientStart,
+        //     gradientEnd
+        // )(ansi(text, padding));
+
+        if(text.length > 20) return res.send("Text too long (max 20 characters)");
+
         
-        let output;
-        if (supportsColor.stdout.has16m) {
-            output = gradient(gradientStart, gradientEnd)(ansi(text, padding));
-        } else {
-            output = gradient('red', 'white', 'blue')(ansi(text, padding));
-        }
-        
+        const colors = interpolateColor(startColor, endColor, steps);
+        const output = printGradientText(ansi(text, padding), colors);
+
         return res.send(output);
-    }catch(e){
+    } catch (e) {
         return res.send(e.message);
     }
 });
