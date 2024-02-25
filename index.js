@@ -21,12 +21,8 @@ app.get("/ansi", (req, res) => {
         const padding = req?.query?.padding || 0;
         const steps = 20;
 
-        // const output = gradient(
-        //     gradientStart,
-        //     gradientEnd
-        // )(ansi(text, padding));
-
-        if(text.length > 20) return res.send("Text too long (max 20 characters)");
+        if(padding > 200) return res.send("Padding too long (max 200)");
+        if(text.length > 100) return res.send("Text too long (max 100 characters)");
 
         
         const colors = interpolateColor(startColor, endColor, steps);
@@ -44,9 +40,10 @@ app.get("/normal", (req, res) => {
         const endColor = req?.query?.end || "7e22ce";
         const text = req?.query?.text || "Hello, World!";
         const padding = req?.query?.padding || 0;
-        const steps = req?.query?.steps || 20;
-
-        if(text.length > 20) return res.send("Text too long (max 20 characters)");
+        const steps = 20;
+        
+        if(padding > 200) return res.send("Padding too long (max 200)");
+        if(text.length > 300) return res.send("Text too long (max 300 characters)");
 
         const colors = interpolateColor(startColor, endColor, steps);
         let output = getPadding(padding);
