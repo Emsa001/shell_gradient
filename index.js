@@ -1,6 +1,7 @@
 const express = require("express");
 const gradient = require("gradient-string");
 const ansi = require("./formats/ansi");
+const supportsColor = require('supports-color');
 
 const app = express();
 const port = 8080;
@@ -12,7 +13,13 @@ app.get("/ansi", (req, res) => {
         const text = req?.query?.text || "Hello, World!";
         const padding = req?.query?.padding || 0;
         
-        const output = gradient(gradientStart, gradientEnd)(ansi(text, padding));
+        let output;
+        if (supportsColor.stdout.has16m) {
+            output = gradient(gradientStart, gradientEnd)(ansi(text, padding));
+        } else {
+            output = gradient('red', 'white', 'blue')(ansi(text, padding));
+        }
+        
         return res.send(output);
     }catch(e){
         return res.send(e.message);
