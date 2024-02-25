@@ -411,10 +411,12 @@ const dict = {
 ╚═╝    `,
 };
 
-const ansi = (string) => {
+const ansi = (string, padding) => {
     let output = '';
     
     for (let i = 0; i < 7; i++) {
+        for(let k = 0; k < padding; k++)
+            output += ' ';
         for (let j = 0; j < string.length; j++) {
             const char = dict[string.toLowerCase()[j]]?.split('\n')[i] || dict[' '].split('\n')[i];
             output += char + ' ';
